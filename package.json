@@ -1,0 +1,23 @@
+{
+  "name": "easy-concurrent-stream",
+  "version": "0.0.1",
+  "description": "EasyConcurrentStream is easy to use concurrent transform strema",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ikeisuke/node-easy-concurrent-stream.git"
+  },
+  "keywords": [
+    "stream3",
+    "concurrent"
+  ],
+  "author": "Keisuke Isono <reirou.k@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ikeisuke/node-easy-concurrent-stream/issues"
+  },
+  "homepage": "https://github.com/ikeisuke/node-easy-concurrent-stream#readme"
+}
