@@ -1,0 +1,11 @@
+machine:
+  node:
+    version: v6.7.0
+test:
+  override:
+    - nvm install v6.7.0
+    - nvm alias default v6.7.0
+    - npm test
+    - nvm install v4.6.0
+    - nvm alias default v4.6.0
+    - npm test

@@ -1,5 +1,7 @@
 # EasyConcurrentStream
 
+![build status](https://circleci.com/gh/ikeisuke/node-easy-concurrent-stream.svg?style=shield&circle-token=4c191000c662ac0bea7d4e1990dd4cef6c882d52)
+
 Create concurrent transform stream from an asyncronous function.
 
 
