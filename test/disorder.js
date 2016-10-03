@@ -515,4 +515,32 @@ describe('ConcurrentTransform', function(){
       });
     });
   });
+  it('emit custom event in transform', function(done){
+    const map = ConcurrentTransform({
+      sequential: false,
+      transform: function(chunk, encoding, callback){
+        this.emit('custom', chunk);
+        callback(null, chunk);
+      }
+    });
+
+    const result = function* () {
+      yield 'foog';
+      yield 'bark';
+      yield 'bazy';
+      yield 'kuel';
+    }
+    const gen = result();
+    map.on('custom', function(data){
+      assert.strictEqual(data.toString(), gen.next().value);
+    });
+
+    map.write(Buffer.from('foog'));
+    map.write(Buffer.from('bark'));
+    map.write(Buffer.from('bazy'));
+    map.write(Buffer.from('kuel'));
+    map.end();
+
+    done();
+  });
 });
