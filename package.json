@@ -1,6 +1,6 @@
 {
   "name": "easy-concurrent-stream",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "EasyConcurrentStream is easy to use concurrent transform strema",
   "main": "index.js",
   "scripts": {
