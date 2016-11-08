@@ -17,7 +17,7 @@ describe('ConcurrentTransform(sequential)', function(){
       }
     });
     for (var i = 1; i <= 10; i++) {
-      map.write(Buffer.allocUnsafe(i));
+      map.write(new Buffer(i));
     }
     map.end();
     assert.strictEqual(map._readableState.length, 10);
@@ -40,7 +40,7 @@ describe('ConcurrentTransform(sequential)', function(){
       }
     });
     for (var i = 1; i <= 10; i++) {
-      map.write(Buffer.allocUnsafe(i));
+      map.write(new Buffer(i));
     }
     map.end();
 
@@ -62,10 +62,10 @@ describe('ConcurrentTransform(sequential)', function(){
         callback(null, chunk);
       }
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     const result = function* () {
@@ -119,15 +119,15 @@ describe('ConcurrentTransform(sequential)', function(){
   it('simple transform', function(done){
     const map = ConcurrentTransform({
       transform: function(chunk, encoding, callback){
-        var ret = Buffer.alloc(chunk.length, 'x');
+        var ret = new Buffer(Array(chunk.length).fill('x').join(""), 'utf-8');
         this.push(ret);
         callback();
       }
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     const result = function* () {
@@ -187,10 +187,10 @@ describe('ConcurrentTransform(sequential)', function(){
         }, 10);
       }
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     const result = function* () {
@@ -225,10 +225,10 @@ describe('ConcurrentTransform(sequential)', function(){
         }, 10)
       }
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     const result = function* () {
@@ -264,33 +264,33 @@ describe('ConcurrentTransform(sequential)', function(){
         setTimeout(() => {
           map.state += s.charAt(0);
           if (map.state.length === 3) {
-            this.push(Buffer.from(map.state));
+            this.push(new Buffer(map.state));
             map.state = '';
           }
           callback();
         }, 10);
       },
       flush: function(callback) {
-        this.push(Buffer.from(this.state));
+        this.push(new Buffer(this.state));
         this.state = '';
         callback();
       }
     });
     map.state = '';
-    map.write(Buffer.from('aaaa'));
-    map.write(Buffer.from('bbbb'));
-    map.write(Buffer.from('cccc'));
-    map.write(Buffer.from('dddd'));
-    map.write(Buffer.from('eeee'));
-    map.write(Buffer.from('aaaa'));
-    map.write(Buffer.from('bbbb'));
-    map.write(Buffer.from('cccc'));
-    map.write(Buffer.from('dddd'));
-    map.write(Buffer.from('eeee'));
-    map.write(Buffer.from('aaaa'));
-    map.write(Buffer.from('bbbb'));
-    map.write(Buffer.from('cccc'));
-    map.write(Buffer.from('dddd'));
+    map.write(new Buffer('aaaa'));
+    map.write(new Buffer('bbbb'));
+    map.write(new Buffer('cccc'));
+    map.write(new Buffer('dddd'));
+    map.write(new Buffer('eeee'));
+    map.write(new Buffer('aaaa'));
+    map.write(new Buffer('bbbb'));
+    map.write(new Buffer('cccc'));
+    map.write(new Buffer('dddd'));
+    map.write(new Buffer('eeee'));
+    map.write(new Buffer('aaaa'));
+    map.write(new Buffer('bbbb'));
+    map.write(new Buffer('cccc'));
+    map.write(new Buffer('dddd'));
     map.end();
 
     const result = function* () {
@@ -331,8 +331,8 @@ describe('ConcurrentTransform(sequential)', function(){
     });
     map.once('readable', function(){
       process.nextTick(() => {
-        this.write(Buffer.from('d'));
-        this.write(Buffer.from('ef'), () => {
+        this.write(new Buffer('d'));
+        this.write(new Buffer('ef'), () => {
           this.end();
           done();
         });
@@ -354,15 +354,15 @@ describe('ConcurrentTransform(sequential)', function(){
     map.on('readable', function() {
       emits++;
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
 
     assert.strictEqual(emits, 1);
     assert.strictEqual(map.read(5).toString(), 'foogb');
     assert.strictEqual(map.read(5), null);
 
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
 
     assert.strictEqual(emits, 2);
 
@@ -388,8 +388,8 @@ describe('ConcurrentTransform(sequential)', function(){
     map.on('readable', function() {
       emits++;
     });
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
 
     assert.strictEqual(emits, 1);
     assert.strictEqual(map.read(5).toString(), 'foogb');
@@ -412,9 +412,9 @@ describe('ConcurrentTransform(sequential)', function(){
           map.end();
         })
       });
-      map.write(Buffer.from('kuel'));
+      map.write(new Buffer('kuel'));
     });
-    map.write(Buffer.from('bazy'));
+    map.write(new Buffer('bazy'));
   }),
   it('passthrough facaded', function(done){
     const map = ConcurrentTransform({
@@ -430,13 +430,13 @@ describe('ConcurrentTransform(sequential)', function(){
       assert.deepStrictEqual(datas, ['foog', 'bark', 'bazy', 'kuel']);
       done();
     });
-    map.write(Buffer.from('foog'));
+    map.write(new Buffer('foog'));
     setTimeout(function(){
-      map.write(Buffer.from('bark'));
+      map.write(new Buffer('bark'));
       setTimeout(function(){
-        map.write(Buffer.from('bazy'));
+        map.write(new Buffer('bazy'));
         setTimeout(function(){
-          map.write(Buffer.from('kuel'));
+          map.write(new Buffer('kuel'));
           setTimeout(function(){
             map.end();
           }, 10);
@@ -535,10 +535,10 @@ describe('ConcurrentTransform(sequential)', function(){
       assert.strictEqual(data.toString(), gen.next().value);
     });
 
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     done();
