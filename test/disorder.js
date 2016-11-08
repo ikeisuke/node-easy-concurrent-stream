@@ -17,7 +17,7 @@ describe('ConcurrentTransform', function(){
       }
     });
     for (var i = 1; i <= 10; i++) {
-      nowait.write(Buffer.allocUnsafe(i));
+      nowait.write(new Buffer(i));
     }
     nowait.end();
     assert.strictEqual(nowait._readableState.length, 10);
@@ -39,7 +39,7 @@ describe('ConcurrentTransform', function(){
       }
     });
     for (var i = 1; i <= 10; i++) {
-      nowait.write(Buffer.allocUnsafe(i));
+      nowait.write(new Buffer(i));
     }
     nowait.end();
 
@@ -62,10 +62,10 @@ describe('ConcurrentTransform', function(){
         callback(null, chunk);
       }
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
-    nowait.write(Buffer.from('bazy'));
-    nowait.write(Buffer.from('kuel'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
+    nowait.write(new Buffer('bazy'));
+    nowait.write(new Buffer('kuel'));
     nowait.end();
 
     const result = function* () {
@@ -121,15 +121,15 @@ describe('ConcurrentTransform', function(){
     const nowait = ConcurrentTransform({
       sequential: false,
       transform: function(chunk, encoding, callback){
-        var ret = Buffer.alloc(chunk.length, 'x');
+        var ret = new Buffer(Array(chunk.length).fill('x').join(""), 'utf-8');
         this.push(ret);
         callback();
       }
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
-    nowait.write(Buffer.from('bazy'));
-    nowait.write(Buffer.from('kuel'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
+    nowait.write(new Buffer('bazy'));
+    nowait.write(new Buffer('kuel'));
     nowait.end();
 
     const result = function* () {
@@ -191,10 +191,10 @@ describe('ConcurrentTransform', function(){
         }, 10);
       }
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
-    nowait.write(Buffer.from('bazy'));
-    nowait.write(Buffer.from('kuel'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
+    nowait.write(new Buffer('bazy'));
+    nowait.write(new Buffer('kuel'));
     nowait.end();
 
     const result = function* () {
@@ -230,10 +230,10 @@ describe('ConcurrentTransform', function(){
         }, 10)
       }
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
-    nowait.write(Buffer.from('bazy'));
-    nowait.write(Buffer.from('kuel'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
+    nowait.write(new Buffer('bazy'));
+    nowait.write(new Buffer('kuel'));
     nowait.end();
 
     let result = '';
@@ -262,33 +262,33 @@ describe('ConcurrentTransform', function(){
         setTimeout(() => {
           this.state += s.charAt(0);
           if (this.state.length === 3) {
-            this.push(Buffer.from(this.state));
+            this.push(new Buffer(this.state));
             this.state = '';
           }
           callback();
         }, 10);
       },
       flush: function(callback) {
-        this.push(Buffer.from(this.state));
+        this.push(new Buffer(this.state));
         this.state = '';
         callback();
       }
     });
     nowait.state = '';
-    nowait.write(Buffer.from('aaaa'));
-    nowait.write(Buffer.from('bbbb'));
-    nowait.write(Buffer.from('cccc'));
-    nowait.write(Buffer.from('dddd'));
-    nowait.write(Buffer.from('eeee'));
-    nowait.write(Buffer.from('aaaa'));
-    nowait.write(Buffer.from('bbbb'));
-    nowait.write(Buffer.from('cccc'));
-    nowait.write(Buffer.from('dddd'));
-    nowait.write(Buffer.from('eeee'));
-    nowait.write(Buffer.from('aaaa'));
-    nowait.write(Buffer.from('bbbb'));
-    nowait.write(Buffer.from('cccc'));
-    nowait.write(Buffer.from('dddd'));
+    nowait.write(new Buffer('aaaa'));
+    nowait.write(new Buffer('bbbb'));
+    nowait.write(new Buffer('cccc'));
+    nowait.write(new Buffer('dddd'));
+    nowait.write(new Buffer('eeee'));
+    nowait.write(new Buffer('aaaa'));
+    nowait.write(new Buffer('bbbb'));
+    nowait.write(new Buffer('cccc'));
+    nowait.write(new Buffer('dddd'));
+    nowait.write(new Buffer('eeee'));
+    nowait.write(new Buffer('aaaa'));
+    nowait.write(new Buffer('bbbb'));
+    nowait.write(new Buffer('cccc'));
+    nowait.write(new Buffer('dddd'));
     nowait.end();
 
     let result = '';
@@ -326,8 +326,8 @@ describe('ConcurrentTransform', function(){
     });
     nowait.once('readable', function(){
       process.nextTick(() => {
-        this.write(Buffer.from('d'));
-        this.write(Buffer.from('ef'), () => {
+        this.write(new Buffer('d'));
+        this.write(new Buffer('ef'), () => {
           this.end();
           done();
         });
@@ -350,15 +350,15 @@ describe('ConcurrentTransform', function(){
     nowait.on('readable', function() {
       emits++;
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
 
     assert.strictEqual(emits, 1);
     assert.strictEqual(nowait.read(5).toString(), 'foogb');
     assert.strictEqual(nowait.read(5), null);
 
-    nowait.write(Buffer.from('bazy'));
-    nowait.write(Buffer.from('kuel'));
+    nowait.write(new Buffer('bazy'));
+    nowait.write(new Buffer('kuel'));
 
     assert.strictEqual(emits, 2);
 
@@ -384,8 +384,8 @@ describe('ConcurrentTransform', function(){
     nowait.on('readable', function() {
       emits++;
     });
-    nowait.write(Buffer.from('foog'));
-    nowait.write(Buffer.from('bark'));
+    nowait.write(new Buffer('foog'));
+    nowait.write(new Buffer('bark'));
 
     assert.strictEqual(emits, 1);
     assert.strictEqual(nowait.read(5).toString(), 'foogb');
@@ -408,9 +408,9 @@ describe('ConcurrentTransform', function(){
           nowait.end();
         })
       });
-      nowait.write(Buffer.from('kuel'));
+      nowait.write(new Buffer('kuel'));
     });
-    nowait.write(Buffer.from('bazy'));
+    nowait.write(new Buffer('bazy'));
   }),
   it('passthrough facaded', function(done){
     const nowait = ConcurrentTransform({
@@ -427,13 +427,13 @@ describe('ConcurrentTransform', function(){
       assert.deepStrictEqual(datas, ['foog', 'bark', 'bazy', 'kuel']);
       done();
     });
-    nowait.write(Buffer.from('foog'));
+    nowait.write(new Buffer('foog'));
     setTimeout(function(){
-      nowait.write(Buffer.from('bark'));
+      nowait.write(new Buffer('bark'));
       setTimeout(function(){
-        nowait.write(Buffer.from('bazy'));
+        nowait.write(new Buffer('bazy'));
         setTimeout(function(){
-          nowait.write(Buffer.from('kuel'));
+          nowait.write(new Buffer('kuel'));
           setTimeout(function(){
             nowait.end();
           }, 10);
@@ -535,10 +535,10 @@ describe('ConcurrentTransform', function(){
       assert.strictEqual(data.toString(), gen.next().value);
     });
 
-    map.write(Buffer.from('foog'));
-    map.write(Buffer.from('bark'));
-    map.write(Buffer.from('bazy'));
-    map.write(Buffer.from('kuel'));
+    map.write(new Buffer('foog'));
+    map.write(new Buffer('bark'));
+    map.write(new Buffer('bazy'));
+    map.write(new Buffer('kuel'));
     map.end();
 
     done();
