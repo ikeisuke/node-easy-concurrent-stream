@@ -1,6 +1,9 @@
 # EasyConcurrentStream
 
-![build status](https://circleci.com/gh/ikeisuke/node-easy-concurrent-stream.svg?style=shield&circle-token=4c191000c662ac0bea7d4e1990dd4cef6c882d52)
+[![build status](https://circleci.com/gh/ikeisuke/node-easy-concurrent-stream.svg?style=shield&circle-token=4c191000c662ac0bea7d4e1990dd4cef6c882d52)](https://circleci.com/gh/ikeisuke/node-easy-concurrent-stream)
+[![npm version](https://badge.fury.io/js/easy-concurrent-stream.svg)](https://www.npmjs.com/package/easy-concurrent-stream)
+[![Code Climate](https://codeclimate.com/github/ikeisuke/node-easy-concurrent-stream/badges/gpa.svg)](https://codeclimate.com/github/ikeisuke/node-easy-concurrent-stream)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 Create concurrent transform stream from an asyncronous function.
 
