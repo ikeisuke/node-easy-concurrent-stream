@@ -22,7 +22,10 @@
   "homepage": "https://github.com/ikeisuke/node-easy-concurrent-stream#readme",
   "devDependencies": {
     "benchmark": "^2.1.1",
+    "coveralls": "^2.11.14",
+    "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
+    "mocha-lcov-reporter": "^1.2.0",
     "tempfile": "^1.1.1"
   }
 }
