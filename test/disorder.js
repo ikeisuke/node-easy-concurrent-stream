@@ -4,7 +4,7 @@ const assert = require('assert')
     , ConcurrentTransform = require('../index').Transform
     ;
 
-describe('ConcurrentTransform', function(){
+describe('ConcurrentTransform(disorder)', function(){
   it('writable side consumption', function(){
     let transformed = 0;
     const nowait = new ConcurrentTransform({
