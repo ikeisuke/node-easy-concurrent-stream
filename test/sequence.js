@@ -4,7 +4,7 @@ const assert = require('assert')
     , ConcurrentTransform = require('../index').Transform
     ;
 
-describe('ConcurrentTransform', function(){
+describe('ConcurrentTransform(sequential)', function(){
   it('writable side consumption', function(done){
     let transformed = 0;
     const map = new ConcurrentTransform({
